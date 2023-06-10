@@ -3,7 +3,8 @@
 
 ## Introduction
 
-In this project, I build a mini honeynet in Azure and ingest log sources from various resources into a Log Analytics workspace, which is then used by Microsoft Sentinel to build attack maps, trigger alerts, and create incidents. I measured some security metrics in the insecure environment for 24 hours, apply some security controls to harden the environment, measure metrics for another 24 hours, then show the results below. The metrics we will show are:
+This project consisted of ingesting logs from a few different resources into Log Analytics workspace which was used by Azure Sentinel to create incidents and attack maps. To create these incidents, the VMs were left fully open for anyone on the internet to attack therefore creating a honeynet. These logs were taken from the Tenant level (Azure Active Directory), the management plane (Subscription level), and the Data plane (Resource level) allowing for a holistic incident response environment with various alerts. The goal of this project was to compare the results of two 24 hour periods, one with the environment unsecure and the other hardened according to NIST 800-53; specifically using SC-7. Below are the metrics used.
+
 
 - SecurityEvent (Windows Event Logs)
 - Syslog (Linux Event Logs)
@@ -12,10 +13,10 @@ In this project, I build a mini honeynet in Azure and ingest log sources from va
 - AzureNetworkAnalytics_CL (Malicious Flows allowed into our honeynet)
 
 ## Architecture Before Hardening / Security Controls
-![Architecture Diagram](https://i.imgur.com/aBDwnKb.jpg)
+![Architecture Diagram](https://i.imgur.com/GLfG9ww.jpg)
 
 ## Architecture After Hardening / Security Controls
-![Architecture Diagram](https://i.imgur.com/YQNa9Pp.jpg)
+![Architecture Diagram](https://i.imgur.com/7a0pZae.jpg)
 
 The architecture of the mini honeynet in Azure consists of the following components:
 
@@ -32,23 +33,23 @@ For the "BEFORE" metrics, all resources were originally deployed, exposed to the
 For the "AFTER" metrics, Network Security Groups were hardened by blocking ALL traffic with the exception of my admin workstation, and all other resources were protected by their built-in firewalls as well as Private Endpoint
 
 ## Attack Maps Before Hardening / Security Controls
-![NSG Allowed Inbound Malicious Flows](https://i.imgur.com/1qvswSX.png)<br>
-![Linux Syslog Auth Failures](https://i.imgur.com/G1YgZt6.png)<br>
-![Windows RDP/SMB Auth Failures](https://i.imgur.com/ESr9Dlv.png)<br>
+![NSG Allowed Inbound Malicious Flows](https://i.imgur.com/nF6a69m.png)<br>
+![Linux Syslog Auth Failures](https://i.imgur.com/WpiFVmn.png)<br>
+![Windows RDP/SMB Auth Failures](https://i.imgur.com/ffryvEy.png)<br>
 
 ## Metrics Before Hardening / Security Controls
 
 The following table shows the metrics we measured in our insecure environment for 24 hours:
-Start Time 2023-03-15 17:04:29
-Stop Time 2023-03-16 17:04:29
+Start Time: 2023-05-15 12:57:13
+Stop Time: 2023-05-16 12:57:13
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 19470
-| Syslog                   | 3028
-| SecurityAlert            | 10
-| SecurityIncident         | 348
-| AzureNetworkAnalytics_CL | 843
+| SecurityEvent            | 28819
+| Syslog                   | 12681
+| SecurityAlert            | 5
+| SecurityIncident         | 237
+| AzureNetworkAnalytics_CL | 626
 
 ## Attack Maps Before Hardening / Security Controls
 
@@ -57,14 +58,14 @@ Stop Time 2023-03-16 17:04:29
 ## Metrics After Hardening / Security Controls
 
 The following table shows the metrics we measured in our environment for another 24 hours, but after we have applied security controls:
-Start Time 2023-03-18 15:37
-Stop Time	2023-03-19 15:37
+Start Time: 2023-05-20 13:02
+Stop Time: 2023-05-21 13:02
 
 | Metric                   | Count
 | ------------------------ | -----
-| SecurityEvent            | 8778
-| Syslog                   | 25
-| SecurityAlert            | 0
+| SecurityEvent            | 10003
+| Syslog                   | 18
+| SecurityAlert            | 1
 | SecurityIncident         | 0
 | AzureNetworkAnalytics_CL | 0
 
